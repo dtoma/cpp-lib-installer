@@ -2,6 +2,8 @@
 
 Install C/C++ libraries from source.
 
+This script assumes it is started from the project root, and that a `deps` directory is present.
+
 Tested:
 
 ```
