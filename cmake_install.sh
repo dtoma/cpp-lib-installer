@@ -1,13 +1,11 @@
 #!/bin/bash
 
-set -euox pipefail
+set -euo pipefail
 
-ORG_NAME="$1"
-REPO_NAME="$2"
-INSTALL_METHOD="$3"
 INSTALL_PATH=$(pwd)/deps
 
 function install_cmake {
+  REPO_NAME="$1"
   cd "$REPO_NAME"
   if [ ! -f "CMakeLists.txt" ]; then
     echo "CMakeLists.txt not found"
@@ -21,6 +19,7 @@ function install_cmake {
 }
 
 function install_autotools {
+  REPO_NAME="$1"
   cd "$REPO_NAME"
   if [ -f "bootstrap" ]; then
     ./bootstrap
@@ -35,6 +34,9 @@ function install_autotools {
   cd ../../
 }
 
-git clone https://github.com/"$ORG_NAME"/"$REPO_NAME".git
-install_"$INSTALL_METHOD"
-rm -rf "$REPO_NAME"
+while IFS=";" read -r org repo method version; do
+    echo "install: $org/$repo $version $method"
+    git clone https://github.com/"$org"/"$repo".git
+    install_"$method" "$repo"
+    rm -rf "$repo"
+done < "$1"
