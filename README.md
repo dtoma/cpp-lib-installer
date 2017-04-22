@@ -4,7 +4,7 @@ Install C/C++ libraries from source.
 
 This script assumes it is started from the project root, and that a `deps` directory is present.
 
-Usage: `./cmake_install.sh dependencies.csv`
+Usage: `./install_libs.sh dependencies.csv`
 
 Example `dependencies.csv`:
 
